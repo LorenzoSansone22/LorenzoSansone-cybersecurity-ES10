@@ -86,11 +86,19 @@ class ArticleController extends Controller
 
     public function edit(Article $article)
     {
+        if (Auth::id() !== $article->user_id && !Auth::user()->isAdmin()) {
+            return redirect()->route('articles.show', $article)->with('message', 'Not authorized');
+        }
+
         return view('articles.edit',compact('article'));
     }
 
     public function update(Request $request, Article $article/*,HtmlFilterService $htmlFilterService*/)
     {
+        if (Auth::id() !== $article->user_id && !Auth::user()->isAdmin()) {
+            return redirect()->route('articles.show', $article)->with('message', 'Not authorized');
+        }
+
         // UNSECURE
         $articleData = $request->all();
 

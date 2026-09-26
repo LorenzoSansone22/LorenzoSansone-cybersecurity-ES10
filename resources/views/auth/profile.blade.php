@@ -58,7 +58,10 @@
                     </td>
                     <td>
                       <a href="{{route('articles.edit',$article->id)}}" class="btn btn-sm btn-outline-warning me-2" title="Edit"><i class="bi bi-pencil"></i></a>
-                      <a href="{{route('articles.destroy',$article->id)}}" class="btn btn-sm btn-outline-danger" title="Delete"><i class="bi bi-trash"></i></a>
+                      <form action="{{route('articles.destroy',$article->id)}}" method="POST" class="d-inline">
+                        @csrf
+                        <button type="submit" class="btn btn-sm btn-outline-danger" title="Delete"><i class="bi bi-trash"></i></button>
+                      </form>
                     </td>
                   </tr>
                 @endforeach
@@ -93,7 +96,7 @@
         <!-- User Documents -->
         <h2>User Documents</h2>
         <ul>
-            @forelse ($user->files as $file)
+            @forelse ($user->files ?? [] as $file)
                 <li>
                     <a href="{{Storage::url("public/docs/users/$user->id/" . $file->name)}}">{{$file->name}}</a>
                 </li>
