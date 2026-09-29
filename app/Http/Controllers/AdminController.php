@@ -49,6 +49,7 @@ class AdminController extends Controller
         // UNSECURE
 		$user = User::find($id);
         $user->is_admin = !$user->is_admin;
+        Log::info("User $user->email has benn ".($user->is_admin ? "promoted" : "demoted")." to admin at ".now(). "from ".request()->ip(). "by ".Auth::user()->email);
         $user->save();
         return back();
 	}
